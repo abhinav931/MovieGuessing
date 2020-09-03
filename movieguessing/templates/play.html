@@ -1,0 +1,275 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes, maximum-scale = 1.0, user-scalable = no">
+    <audio controls autoplay loop hidden>
+      <source src="{% static 'audio/mountain.mp3' %}" type="audio/mp3">
+      <embed src="{% static 'audio/mountain.mp3' %}" autostart="true" loop="true" hidden="true"> 
+    </audio>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+     <link href="https://fonts.googleapis.com/css2?family=Charm:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+    <title>Guess the Movie</title>
+    <script src="{% static 'js/playone.js' %}"></script>
+  </head>
+  <body>
+<!--    navbar starts here-->
+     <nav class="navbar navbar-expand-lg navbar-light">
+  <a class="navbar-brand" href="#" style="color: lightyellow;"><i class="fa fa-search"></i>MovieGuessing</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'home' %}" style="color: #ffd9df">Home<span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+          <a href="{% url 'play' %}" class="nav-link" style="color: #ffd9df">Play</a>
+      </li>
+    </ul>
+    
+
+  </div>
+</nav>
+
+
+<!--     <embed src="{% static 'audio/Our-Mountain_v003_Looping.mp3' %}" loop="infinite" autostart="true" width="2" height="0" >-->
+     <div class="container" id="playeffect">
+        <div class="row">
+            <div class="col-md-4">
+                <h4 style="color: yellow; font-family: cursive; margin: 2%;"><i class="fa fa-dice-four"></i>Total Chances: <span id="chance" style='color: lightyellow'></span></h4>
+            </div>
+            <div class="col-md-4">
+                <h4 style="color: yellow; font-family: cursive; margin: 2%;"><i class="fa fa-dice-four"></i>Timer: <span id="timer" style='color: lightyellow'></span></h4>
+            </div>
+            <div class="col-md-4">
+                <h4 style="color: yellow; font-family: cursive; margin: 2%;"><i class="fa fa-dice-four"></i>Characters used: <span id="charused" style='color: lightyellow'></span></h4>
+            </div>
+        </div>
+        
+        <div class="row" id='bolly'>
+                
+        </div>
+        <div class="row user">
+            <table class="table">
+                <thead>
+                    <tr id = 'playing'>
+                        
+                    </tr>
+                </thead>
+            </table>
+        </div>     
+        <div class="row">
+           <div class="col-xs-12">
+               <div class="col-xs-8"><label for="Character" style="color: yellow;">Enter the character/movie name</label>
+               </div>
+               <div class="col-xs-4"><input type="text" name="char" id="char" placeholder="Type Here" >
+               </div>
+           </div>
+        </div>
+        <div class="row">
+            
+            <button class="btn-primary btn-lg" onclick="myfunc()">Guess it!!</button>
+            
+        </div> 
+        <div class="row" >
+           <div class="col-xs-12">
+               
+               <div class="col-xs-2"><input type="checkbox" name="one" id="onego"></div>
+               <div class="col-xs-10"><label for="onego" style="font-size: 1em; color: lightyellow;">Select movie in one go</label></div>
+           </div>
+        </div>
+    </div>
+  
+     <div class="footer">
+       <p>Developed by Abhinav &copy; 2020</p>
+   </div>
+   
+     <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            ...
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Play Again</button>
+            <button type="button" class="btn btn-primary">Redirect to Home</button>
+          </div>
+        </div>
+      </div>
+    </div>
+   
+     <script>
+        var countOfChar = 0;
+        var bollyName = {};
+        var j = 0;
+        var y = null;
+        var textnode = null;
+        var t= null;
+        var char = ['B', 'O', 'L', 'L', 'Y', 'W', 'O', 'O', 'D'];
+        for (j=0; j < 9; j++){
+            y = document.createElement('P');
+            t = document.createElement('strong');
+            textnode = document.createTextNode(char[j]);
+            t.appendChild(textnode);
+            y.appendChild(t);
+            bollyName[j] = y;
+            document.getElementById('bolly').appendChild(y);
+        }
+        var movie = '{{name}}';
+        var len = {{length}};
+        var newelement = {};
+        var x = null;
+        
+//                creating fields
+        for (var i = 0; i < len; i++){
+            x = document.createElement('TH');
+            newelement[i] = x;
+            x.style.color = 'lightyellow';
+            if (movie[i] == ' '){
+                textnode = document.createTextNode(' ');
+            }
+            else{
+                countOfChar++;
+                textnode = document.createTextNode('_');
+            }
+            
+            x.appendChild(textnode);
+            document.getElementById('playing').appendChild(x); 
+
+        }  
+        var countToCut = 0; 
+        var chances = 0; 
+        var charAlreadyCalled = [];
+        var characterUsed = '';
+        function myfunc(){
+            var x = document.getElementById('char').value.toLowerCase();
+            var check = document.getElementById('onego').checked;
+            console.log(x.match('/^[A-Za-z]+$/'));
+            if (x.match('/^[A-Za-z]+$/') == false){
+                alert('Please enter charcters only.')
+            }
+            if (check == true){
+                if (x == movie){
+                    alert('you won!!\n' + 'Movie name is: ' + movie);
+                    window.location.href = "{% url 'home' %}";
+                    return;
+                }
+                else{
+                    document.getElementById('onego').checked = false;
+                    document.getElementById('char').value = null;
+                    
+                    return;
+                }
+            }
+            if (check == false && x.length >= 2){
+                alert('Enter one character at a time.');
+                document.getElementById('char').value = null;
+               
+                return;
+            }
+            
+            if (x == null){
+                alert('Please enter a character.')
+            }
+            if (charAlreadyCalled.includes(x)){
+                alert('You have already choosen chracter ' + x  );
+                document.getElementById('char').value = null;
+                return;
+            }
+            else{
+                charAlreadyCalled.push(x);
+            }
+            chances++;
+            characterUsed += x +',';  document.getElementById('charused').innerHTML = characterUsed;
+            document.getElementById('chance').innerHTML = chances;
+            
+            var a = 0;
+            var flag = 0;
+            var index = [];
+            while(true){
+                a = movie.indexOf(x, a);
+                if(a != -1){
+                    flag = 1;
+                    index.push(a);
+                    a++;
+                }
+                else{
+                    break;
+                }
+            }
+            if (flag == 0){
+                bollyName[countToCut].style.textDecoration = 'line-through dotted red';
+                bollyName[countToCut].style.color = 'grey';
+                countToCut++;
+                document.getElementById('char').value = null;
+                if (countToCut >= 9){
+                    alert('You loose\n' + 'Movie name is: ' + movie);
+                    window.location.href = "{% url 'home' %}";
+                }
+                
+                return
+            }
+            for (pos in index){
+                newelement[index[pos]].innerHTML = x;
+                countOfChar--;
+            } 
+            if (countOfChar == 0){
+                alert('you won!!\n' + 'Movie name is: ' + movie);
+                 window.location.href = "{% url 'home' %}";
+            }
+            document.getElementById('char').value = null;
+        }
+        
+//         timer
+         var min = 0;
+         var sec = 0;
+
+         var time = '0' + min + ':' + '0' + sec;
+         document.getElementById('timer').innerHTML = time;
+         function timeLimit(){
+            if (sec== 60){
+                min++;
+                sec = 0;
+            }
+            if (min == 2){
+                alert('Time up!!\n' + 'Movie name is: ' + movie);
+                window.location.href = "{% url 'home' %}";
+            }
+            if (min == 1){
+                document.getElementsByTagName('body')[0].style.backgroundColor = 'red';
+            }
+            sec++;
+            if (sec >= 10){
+                var time = '0' + min + ':' + sec;
+            }
+             else{
+                 time = '0' + min + ':' + '0' + sec; 
+             }
+            document.getElementById('timer').innerHTML = time;
+            setTimeout(timeLimit, 1000);
+         }
+         timeLimit();
+    </script>
+   
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="{% static 'js/playone.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+</html>

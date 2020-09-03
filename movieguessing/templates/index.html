@@ -1,0 +1,99 @@
+<!--username = admin, password = admin, email = ad@abc.com-->
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes, maximum-scale = 1.0, user-scalable = no">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+     <link href="https://fonts.googleapis.com/css2?family=Charm:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+    <title>Guess the Movie</title>
+  </head>
+  <body>
+<!--    navbar starts here-->
+   <nav class="navbar navbar-expand-sm navbar-light">
+  <a class="navbar-brand" href="#" style="color: lightyellow;"><i class="fa fa-search"></i>MovieGuessing</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'home' %}" style="color: #ffd9df">Home<span class="sr-only">(current)</span></a>
+      </li> 
+    </ul>
+    
+
+  </div>
+</nav>
+<!--    navbar ends here-->
+  
+<!--  jumbotron starts here-->
+   <div class="jumbotron">
+  <h1 class="display-4">Hello, world!</h1>
+  <p class="lead">This is a simple guessing game, that is designed to test your guessing ability.</p>
+  <hr class="my-4" size='4' noshade>
+  <p>Hmm!!!! Want to play??</p>
+  <p class="lead">
+    <a class="btn btn-primary btn-lg" href="{% url 'play' %}" role="button" style="background-color: rgba(241,111,92,1);">Play</a>
+  </p>
+</div>
+<!--  jumbotron ends here-->
+ <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style = 'margin-left: 120px;'>
+  Know the rules
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog .modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Read the rules carefully.</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <ol class="rules">
+            <li>Movie names contains letters only.</li>
+            <li>All movies are of 2000s onwards.</li>
+            <li>You will be having nine chances to guess the movie</li>
+            <li>You can type whole movie name by selecting checkbox</li>
+            <li>If you loose, movie name will be displayed.</li>
+            <li>You will have only 2 minutes to guess the movie</li>
+        </ol>
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+<!--        <button type="button" class="btn btn-primary">Save changes</button>-->
+      </div>
+    </div>
+  </div>
+</div>
+    {% block content %}
+    {% endblock content %}
+<!--  footer starts here-->
+   <div class="footer">
+       <p>Developed by Abhinav &copy; 2020</p>
+   </div>
+<!--
+   <div class="footer jumbotron text-center" style="margin-bottom:0; height: 20px;">
+          <p>Developed by Abhinav &copy; 2020</p>
+   </div>
+-->
+<!--   footer ends here-->
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="{% static 'js/playone.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+</html>
